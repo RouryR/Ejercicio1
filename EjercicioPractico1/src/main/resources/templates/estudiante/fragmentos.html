@@ -3,11 +3,26 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <head th:replace="~{layout/plantilla :: head}">
-        <title>Practica01</title>
+        <title>Ejercicio1</title>
     </head>
     <body>
         <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
         <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
+             <section th:fragment="botonesAgregar " class="py-4 mb-4 bg-light">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="fs-2">   
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-warning border-dark" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#agregarCategoria">
+                                            <i class="fa-solid fa-circle-plus"></i> [[#{estudiante.agregar}]]
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
         </section>
         <!-- 2 Fragmento para agregar estudiante, es la ventana modal -->
         <section th:fragment="agregarCategoria">
@@ -30,32 +45,29 @@
                                     <input type="text" class="form-control" name="nombre" required="true"/>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="descripcion">[[#{estudiante.descripcion}]]</label>
-                                    <input type="text" class="form-control" name="descripcion" required="true"/>
+                                    <label for="descripcion">[[#{estudiante.identificacion}]]</label>
+                                    <input type="text" class="form-control" name="identificacion" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.nivel_cursando}]]</label>
+                                    <input type="text" class="form-control" name="nivel_cursando" required="true"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="descripcion">[[#{estudiante.edad}]]</label>
                                     <input type="text" class="form-control" name="edad" required="true"/>
                                 </div>
+                                 <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.peso}]]</label>
+                                    <input type="text" class="form-control" name="peso" required="true"/>
+                                </div>
                                 <div class="mb-3">
-                                    <label for="descripcion">[[#{estudiante.altura}]]</label>
-                                    <input type="text" class="form-control" name="altura" required="true"/>
+                                    <label for="descripcion">[[#{estudiante.genero}]]</label>
+                                    <input type="text" class="form-control" name="genero" required="true"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="activo">[[#{estudiante.activo}]]</label>
                                     <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="imagen">[[#{estudiante.imagen}]]</label>
-                                    <input class="form-control" type="text" name="ruta_imagen" onchange="mostrarImagen(this.value);" />
-                                    <img id="blah" src="#" alt="tu imagen" height="200" />
-                                </div>
-                                <script>
-                                    function mostrarImagen(urlImagen) {
-                                        var img = document.getElementById('blah');
-                                        img.src = urlImagen;
-                                    }
-                                </script>
+                                </div>              
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
@@ -75,15 +87,17 @@
                                 <h4 class="text-center"><i class="fa-solid fa-list"></i> [[#{estudiante.listado}]]</h4>
 
                             </div>
-                            <div th:if="${estudiantes != null and !estudiantes.empty}">
+                            <div th:if="${estudiante != null and !estudiante.empty}">
                                 <table class="table table-striped table-hover align-middle">
                                     <thead class="table-success">
                                         <tr><th>#</th>
                                             <th class="text-center">[[#{estudiante.nombre}]]</th>
-                                            <th class="text-center">[[#{estudiante.descripcion}]]</th>
+                                            <th class="text-center">[[#{estudiante.identificacion}]]</th>
+                                            <th class="text-center">[[#{estudiante.nivel_cursando}]]</th>
                                             <th class="text-center">[[#{estudiante.edad}]]</th>
                                             <th class="text-center">[[#{estudiante.altura}]]</th>
-                                            <th class="text-center">[[#{estudiante.imagen}]]</th>
+                                             <th class="text-center">[[#{estudiante.peso}]]</th>
+                                             <th class="text-center">[[#{estudiante.genero}]]</th>
                                             <th class="text-center">[[#{estudiante.activo}]]</th>
                                             <th></th></tr>
                                     </thead>
@@ -91,12 +105,12 @@
                                         <tr th:each="estudiante, contador : ${estudiantes}">
                                             <td class="text-center">[[${contador.count}]]</td>
                                             <td class="text-center">[[${estudiante.nombre}]]</td>
-                                            <td class="text-center">[[${estudiante.descripcion}]]</td>
+                                            <td class="text-center">[[${estudiante.identificacion}]]</td>
+                                            <td class="text-center">[[${estudiante.nivel_cursando}]]</td>
                                             <td class="text-center">[[${estudiante.edad}]]</td>
-                                            <td class="text-center">[[${estudiante.altura}]]</td>
-                                            <td class="text-center">
-                                                <img th:src="@{${estudiante.ruta_imagen}}" alt="Imagen" height="100"/>
-                                            </td>
+                                             <td class="text-center">[[${estudiante.altura}]]</td>
+                                              <td class="text-center">[[${estudiante.peso}]]</td>
+                                              <td class="text-center">[[${estudiante.genero}]]</td>
                                             <td class="text-center" th:text="${estudiante.activo} ? 'Registrado' : 'No registrado'" />   
                                             <td>
                                                 <div class="btn-group" role="group">
@@ -111,7 +125,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-center p-2" th:if="${estudiantes == null or estudiantes.empty}">
+                            <div class="text-center p-2" th:if="${estudiante == null or estudiante.empty}">
                                 <span>[[#{lista.vacia}]]</span>
                             </div>
                         </div>
@@ -136,10 +150,10 @@
                         </section>
 
                         <div class="card border-dark" style="width: 18rem; text-align: center">
-                            <img src="https://www.ecured.cu/images/thumb/c/c8/Cedro.jpg/260px-Cedro.jpg" class="card-img-top" alt="..." height="200">
+                            <img src="https://cdn.icon-icons.com/icons2/1860/PNG/512/student3_118006.png" class="card-img-top" alt="..." height="200">
                                 <div class="card-body">
                                     <h3>[[#{estudiante.total}]]</h3>
-                                    <h4 class="fs-2"><i class="fa-solid fa-tree"></i> [[${totalCategorias}]]</h4>
+                                    <h4 class="fs-2"><i class="fa-solid fa-tree"></i> [[${totalEstudiante}]]</h4>
                                 </div>
                         </div>
 
@@ -163,7 +177,7 @@
                           th:object="${estudiante}"
                           class="was-validated"                          
                           enctype="multipart/form-data">
-                        <input type="hidden" name="idCategoria" th:field="*{idCategoria}"/>
+                        <input type="hidden" name="id" th:field="*{id}"/>
 
                         <section th:replace="~{estudiante/fragmentos :: botonesEditar}"/>
                         <div id=details>
@@ -207,13 +221,6 @@
                                                            id="activo"
                                                            th:field="*{activo}">
                                                 </div>
-                                                <div class="mb-3">
-                                                    <label for="ruta_imagen">[[#{estudiante.imagen}]]</label>
-                                                    <input type="text" class="form-control" 
-                                                           name="ruta_imagen" th:field="*{ruta_imagen}"
-                                                           required="true">
-                                                        <img th:if="${not #strings.isEmpty(estudiante.ruta_imagen)}" th:src="${estudiante.ruta_imagen}" alt="Imagen"  height="200">
-                                                            </div>
                                                             </div>
                                                             </div>
                                                             </div>
@@ -248,4 +255,3 @@
                                                             </section>
                                                             </body>
                                                             </html>
-

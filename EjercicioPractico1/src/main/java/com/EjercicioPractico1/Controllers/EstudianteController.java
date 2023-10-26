@@ -30,9 +30,9 @@ public class EstudianteController {
     @GetMapping("/listado")
     public String inicio(Model model) {
         var estudiante = estudianteService.getEstudiantes(false);
-        model.addAttribute("estudiante", estudiante);
+        model.addAttribute("estudiantes", estudiante);
         model.addAttribute("totalEstudiante", estudiante.size());
-        return "estudiante/listado";
+        return "/estudiante/listado";
     }
 
     @GetMapping("/nuevo")
@@ -58,7 +58,7 @@ public class EstudianteController {
     @GetMapping("/modificar/{id}")
     public String estudiantesModificar(Estudiante estudiante, Model model) {
         estudiante = estudianteService.getEstudiante(estudiante);
-        model.addAttribute("estudiante", estudiante);
+        model.addAttribute("estudiantes", estudiante);
         return "/estudiante/modifica";
     }
 }
