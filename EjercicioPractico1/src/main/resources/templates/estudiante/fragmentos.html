@@ -3,26 +3,11 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
     <head th:replace="~{layout/plantilla :: head}">
-        <title>Ejercicio1</title>
+        <title>Practica01</title>
     </head>
     <body>
         <!-- 1 Sección para crear el boton de agregar... llamará a una ventana modal-->
         <section th:fragment="botonesAgregar" class="py-4 mb-4 bg-light">
-             <section th:fragment="botonesAgregar " class="py-4 mb-4 bg-light">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="fs-2">   
-                                        <button 
-                                            type="button" 
-                                            class="btn btn-warning border-dark" 
-                                            data-bs-toggle="modal" 
-                                            data-bs-target="#agregarCategoria">
-                                            <i class="fa-solid fa-circle-plus"></i> [[#{estudiante.agregar}]]
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
         </section>
         <!-- 2 Fragmento para agregar estudiante, es la ventana modal -->
         <section th:fragment="agregarCategoria">
@@ -56,18 +41,28 @@
                                     <label for="descripcion">[[#{estudiante.edad}]]</label>
                                     <input type="text" class="form-control" name="edad" required="true"/>
                                 </div>
-                                 <div class="mb-3">
+                                <div class="mb-3">
+                                    <label for="descripcion">[[#{estudiante.altura}]]</label>
+                                    <input type="text" class="form-control" name="altura" required="true"/>
+                                </div>
+                                <div class="mb-3">
                                     <label for="descripcion">[[#{estudiante.peso}]]</label>
                                     <input type="text" class="form-control" name="peso" required="true"/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="activo">[[#{estudiante.activo}]]</label>
+                                    <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
                                 </div>
                                 <div class="mb-3">
                                     <label for="descripcion">[[#{estudiante.genero}]]</label>
                                     <input type="text" class="form-control" name="genero" required="true"/>
                                 </div>
-                                <div class="mb-3">
-                                    <label for="activo">[[#{estudiante.activo}]]</label>
-                                    <input class="form-check-input" type="checkbox" name="activo" id="activo"/>
-                                </div>              
+                                <script>
+                                    function mostrarImagen(urlImagen) {
+                                        var img = document.getElementById('blah');
+                                        img.src = urlImagen;
+                                    }
+                                </script>
                             </div>
                             <div class="modal-footer">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
@@ -87,7 +82,7 @@
                                 <h4 class="text-center"><i class="fa-solid fa-list"></i> [[#{estudiante.listado}]]</h4>
 
                             </div>
-                            <div th:if="${estudiante != null and !estudiante.empty}">
+                            <div th:if="${estudiantes != null and !estudiantes.empty}">
                                 <table class="table table-striped table-hover align-middle">
                                     <thead class="table-success">
                                         <tr><th>#</th>
@@ -96,28 +91,29 @@
                                             <th class="text-center">[[#{estudiante.nivel_cursando}]]</th>
                                             <th class="text-center">[[#{estudiante.edad}]]</th>
                                             <th class="text-center">[[#{estudiante.altura}]]</th>
-                                             <th class="text-center">[[#{estudiante.peso}]]</th>
-                                             <th class="text-center">[[#{estudiante.genero}]]</th>
+                                            <th class="text-center">[[#{estudiante.peso}]]</th>
                                             <th class="text-center">[[#{estudiante.activo}]]</th>
+                                            <th class="text-center">[[#{estudiante.genero}]]</th>
                                             <th></th></tr>
                                     </thead>
                                     <tbody>
                                         <tr th:each="estudiante, contador : ${estudiantes}">
                                             <td class="text-center">[[${contador.count}]]</td>
-                                            <td class="text-center">[[${estudiante.nombre}]]</td>
-                                            <td class="text-center">[[${estudiante.identificacion}]]</td>
-                                            <td class="text-center">[[${estudiante.nivel_cursando}]]</td>
-                                            <td class="text-center">[[${estudiante.edad}]]</td>
-                                             <td class="text-center">[[${estudiante.altura}]]</td>
-                                              <td class="text-center">[[${estudiante.peso}]]</td>
-                                              <td class="text-center">[[${estudiante.genero}]]</td>
+                                            <th class="text-center">[[${estudiante.nombre}]]</th>
+                                            <th class="text-center">[[${estudiante.identificacion}]]</th>
+                                            <th class="text-center">[[${estudiante.nivel_cursando}]]</th>
+                                            <th class="text-center">[[${estudiante.edad}]]</th>
+                                            <th class="text-center">[[${estudiante.altura}]]</th>
+                                            <th class="text-center">[[${estudiante.peso}]]</th>
                                             <td class="text-center" th:text="${estudiante.activo} ? 'Registrado' : 'No registrado'" />   
+                                            <th class="text-center">[[${estudiante.genero}]]</th>
+                                            
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a th:href="@{/estudiante/eliminar/}+${estudiante.idCategoria}" class="btn btn-danger me-1">
+                                                    <a th:href="@{/estudiante/eliminar/}+${estudiante.id}" class="btn btn-danger me-1">
                                                         <i class="fas fa-trash "></i> [[#{accion.eliminar}]]
                                                     </a>
-                                                    <a th:href="@{/estudiante/modificar/}+${estudiante.idCategoria}" class="btn btn-success">
+                                                    <a th:href="@{/estudiante/modificar/}+${estudiante.id}" class="btn btn-success">
                                                         <i class="fas fa-pencil"></i> [[#{accion.actualizar}]]
                                                     </a>
                                                 </div>
@@ -125,7 +121,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="text-center p-2" th:if="${estudiante == null or estudiante.empty}">
+                            <div class="text-center p-2" th:if="${estudiantes == null or estudiantes.empty}">
                                 <span>[[#{lista.vacia}]]</span>
                             </div>
                         </div>
@@ -153,7 +149,7 @@
                             <img src="https://cdn.icon-icons.com/icons2/1860/PNG/512/student3_118006.png" class="card-img-top" alt="..." height="200">
                                 <div class="card-body">
                                     <h3>[[#{estudiante.total}]]</h3>
-                                    <h4 class="fs-2"><i class="fa-solid fa-tree"></i> [[${totalEstudiante}]]</h4>
+                                    <h4 class="fs-2"><i class="fa-solid fa-person"></i> [[${totalEstudiante}]]</h4>
                                 </div>
                         </div>
 
@@ -190,27 +186,39 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="mb-3">
-                                                    <label for="descripcion">[[#{estudiante.nombre}]]</label>
+                                                    <label for="identificacion">[[#{estudiante.nombre}]]</label>
                                                     <input type="text" class="form-control" 
-                                                           name="descripcion" th:field="*{nombre}"
+                                                           name="identificacion" th:field="*{nombre}"
                                                            required="true">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="descripcion">[[#{estudiante.descripcion}]]</label>
+                                                    <label for="identificacion">[[#{estudiante.identificacion}]]</label>
                                                     <input type="text" class="form-control" 
-                                                           name="descripcion" th:field="*{descripcion}"
+                                                           name="identificacion" th:field="*{identificacion}"
                                                            required="true">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="descripcion">[[#{estudiante.edad}]]</label>
+                                                    <label for="identificacion">[[#{estudiante.nivel_cursando}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="edad" th:field="*{nivel_cursando}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="identificacion">[[#{estudiante.edad}]]</label>
                                                     <input type="text" class="form-control" 
                                                            name="edad" th:field="*{edad}"
                                                            required="true">
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="descripcion">[[#{estudiante.altura}]]</label>
+                                                    <label for="identificacion">[[#{estudiante.altura}]]</label>
                                                     <input type="text" class="form-control" 
                                                            name="altura" th:field="*{altura}"
+                                                           required="true">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="identificacion">[[#{estudiante.peso}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="edad" th:field="*{peso}"
                                                            required="true">
                                                 </div>
                                                 <div class="mb-3">
@@ -220,6 +228,12 @@
                                                            name="activo" 
                                                            id="activo"
                                                            th:field="*{activo}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="identificacion">[[#{estudiante.genero}]]</label>
+                                                    <input type="text" class="form-control" 
+                                                           name="edad" th:field="*{genero}"
+                                                           required="true">
                                                 </div>
                                                             </div>
                                                             </div>
@@ -240,7 +254,7 @@
                                                                             </a>
                                                                         </div>
                                                                         <div class="col-md-4 d-grid">                                
-                                                                            <a th:href="@{/estudiante/eliminar/}+${estudiante.idCategoria}"
+                                                                            <a th:href="@{/estudiante/eliminar/}+${estudiante.id}"
                                                                                class="btn btn-danger">
                                                                                 <i class="fas fa-trash"></i> [[#{accion.eliminar}]]
                                                                             </a>

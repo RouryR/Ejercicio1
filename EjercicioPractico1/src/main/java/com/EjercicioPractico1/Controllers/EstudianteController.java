@@ -27,13 +27,14 @@ public class EstudianteController {
     @Autowired
     private EstudianteService estudianteService;
 
-    @GetMapping("/listado")
+   @GetMapping("/listado")
     public String inicio(Model model) {
         var estudiante = estudianteService.getEstudiantes(false);
         model.addAttribute("estudiantes", estudiante);
-        model.addAttribute("totalEstudiante", estudiante.size());
+        model.addAttribute("totalEstudiantes", estudiante.size());
         return "/estudiante/listado";
     }
+
 
     @GetMapping("/nuevo")
     public String estudiantesNuevo(Estudiante estudiante) {
@@ -61,4 +62,6 @@ public class EstudianteController {
         model.addAttribute("estudiantes", estudiante);
         return "/estudiante/modifica";
     }
+    
+    
 }
